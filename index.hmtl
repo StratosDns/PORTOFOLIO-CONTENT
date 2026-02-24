@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efstratios Demertzoglou | Data Engineer & ML Specialist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #6366f1;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --darker: #020617;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--darker);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Grid Background */
+        .data-grid {
+            background-image: 
+                linear-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Glow Effects */
+        .glow-text {
+            text-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        /* Terminal Cursor */
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        
+        /* Card Hover Effects */
+        .project-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px -15px rgba(14, 165, 233, 0.3);
+        }
+        
+        /* Pipeline Animation */
+        .pipeline-node {
+            position: relative;
+        }
+        
+        .pipeline-node::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2rem;
+            width: 2rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            transform: translateY(-50%);
+        }
+        
+        .pipeline-node:last-child::after {
+            display: none;
+        }
+        
+        /* Skill Tag Animation */
+        .skill-tag {
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        }
+        
+        /* Data Flow Animation */
+        @keyframes dataFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .data-stream {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: dataFlow 3s linear infinite;
+        }
+    </style>
+</head>
+<body class="data-grid">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center font-bold text-white">ED</div>
+                    <span class="font-mono text-lg font-semibold text-slate-200">Efstratios<span class="text-cyan-400">.dev</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#expertise" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Expertise</a>
+                        <a href="#projects" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="#github" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">GitHub</a>
+                        <a href="#contact" class="bg-cyan-500/10 border border-cyan-500/50 hover:bg-cyan-500/20 transition-all px-4 py-2 rounded-md text-sm font-medium text-cyan-400">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about" class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+        <canvas id="hero-canvas" class="absolute inset-0 w-full h-full opacity-30"></canvas>
+        
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-mono mb-6">
+                        <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+                        Available for opportunities
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        Data <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 glow-text">Engineer</span><br>
+                        <span class="text-slate-400 text-4xl md:text-5xl">& ML Specialist</span>
+                    </h1>
+                    
+                    <p class="text-xl text-slate-400 mb-8 leading-relaxed">
+                        Electrical & Computer Engineer with Integrated Master's in Telecommunications & Information Systems. 
+                        Transforming raw data into actionable insights through robust pipelines and intelligent systems.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <span class="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-sm text-slate-300">Python</span>
+                        <span class="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-sm text-slate-300">SQL</span>
+                        <span class="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-sm text-slate-300">Machine Learning</span>
+                        <span class="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-sm text-slate-300">Data Pipelines</span>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <a href="#projects" class="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-medium transition-all flex items-center gap-2">
+                            View Projects
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </a>
+                        <a href="https://github.com/StratosDns" target="_blank" class="px-8 py-3 border border-slate-600 hover:border-slate-400 rounded-lg font-medium transition-all flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur-2xl opacity-20"></div>
+                    <div class="relative bg-slate-900/80 border border-slate-700 rounded-2xl p-6 font-mono text-sm">
+                        <div class="flex items-center gap-2 mb-4 border-b border-slate-700 pb-3">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-slate-500">efstratios@portfolio:~</span>
+                        </div>
+                        <div class="space-y-2 text-slate-300">
+                            <p><span class="text-cyan-400">$</span> whoami</p>
+                            <p class="text-slate-400 ml-4">Efstratios Demertzoglou - Data Engineer & ML Specialist</p>
+                            
+                            <p><span class="text-cyan-400">$</span> cat education.txt</p>
+                            <p class="text-slate-400 ml-4">M.Eng. Electrical & Computer Engineering<br>
+                            <span class="text-slate-500 ml-4">Specialization: Telecommunications & Information Systems</span></p>
+                            
+                            <p><span class="text-cyan-400">$</span> ls skills/</p>
+                            <p class="text-slate-400 ml-4">data_pipelines/ machine_learning/ etl_processes/<br>
+                            signal_processing/ cloud_computing/ statistical_analysis/</p>
+                            
+                            <p><span class="text-cyan-400">$</span> python analyze_career.py</p>
+                            <p class="text-green-400 ml-4">✓ Data pipelines optimized<br>
+                            ✓ Models deployed successfully<br>
+                            ✓ Insights generated<span class="cursor-blink">_</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section id="expertise" class="py-24 bg-slate-900/50 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Technical <span class="text-cyan-400">Expertise</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    Bridging telecommunications theory with modern data engineering practices. 
+                    Specialized in building end-to-end data solutions that scale.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Data Engineering -->
+                <div class="group p-6 rounded-2xl bg-slate-800/30 border border-slate-700 hover:border-cyan-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-200">Data Engineering</h3>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                            ETL Pipeline Development
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                            Data Warehousing & Modeling
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                            Real-time Data Processing
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                            Database Optimization (SQL/NoSQL)
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Machine Learning -->
+                <div class="group p-6 rounded-2xl bg-slate-800/30 border border-slate-700 hover:border-purple-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-200">Machine Learning</h3>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>
+                            Predictive Modeling & Analytics
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>
+                            Natural Language Processing
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>
+                            Recommendation Systems
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>
+                            Model Deployment & MLOps
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Telecommunications -->
+                <div class="group p-6 rounded-2xl bg-slate-800/30 border border-slate-700 hover:border-emerald-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-200">Telecommunications</h3>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                            Signal Processing & Analysis
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                            Information Systems Design
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                            Network Data Analytics
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                            System Architecture
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="mt-16">
+                <h3 class="text-center text-lg font-semibold mb-8 text-slate-300">Technologies I Work With</h3>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Python</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Pandas</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">NumPy</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Scikit-learn</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">TensorFlow</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">SQL</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">PostgreSQL</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Apache Airflow</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Docker</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">AWS</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Git</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Linux</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">MATLAB</span>
+                    <span class="skill-tag px-4 py-2 bg-slate-800 border border-slate-700 rounded-full text-sm text-cyan-400 cursor-default">Tableau</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section id="projects" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Featured <span class="text-cyan-400">Projects</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    End-to-end data solutions showcasing pipeline architecture, machine learning implementation, 
+                    and business intelligence insights.
+                </p>
+            </div>
+
+            <!-- Project 1: Yelp ML -->
+            <article class="project-card rounded-2xl p-8 mb-8 relative overflow-hidden group">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-xs text-purple-400 font-mono">NLP & Machine Learning</span>
+                            <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-xs text-cyan-400 font-mono">Python</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors">Yelp Review Analysis & Recommendation Engine</h3>
+                        <p class="text-slate-400 mb-6 leading-relaxed">
+                            Comprehensive machine learning pipeline analyzing Yelp business reviews to extract sentiment patterns 
+                            and build recommendation systems. Implemented natural language processing techniques to understand 
+                            customer preferences and predict business ratings based on review text features.
+                        </p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Built end-to-end data pipeline for processing 100K+ reviews</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Implemented sentiment analysis using TF-IDF and word embeddings</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Developed collaborative filtering recommendation system</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <a href="https://github.com/StratosDns/ml-project-yelp" target="_blank" class="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
+                                View on GitHub
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-xl blur-xl"></div>
+                        <div class="relative bg-slate-900 border border-slate-700 rounded-xl p-6 font-mono text-xs">
+                            <div class="flex items-center gap-2 mb-3 text-slate-500">
+                                <span>yelp_pipeline.py</span>
+                            </div>
+                            <pre class="text-slate-300 overflow-x-auto"><code><span class="text-purple-400">def</span> <span class="text-cyan-400">process_reviews</span>(data):
+    <span class="text-slate-500"># ETL Pipeline</span>
+    clean_data = <span class="text-cyan-400">extract_transform</span>(data)
+    features = <span class="text-cyan-400">vectorize_text</span>(clean_data)
+    model = <span class="text-cyan-400">train_sentiment_classifier</span>(features)
+    <span class="text-purple-400">return</span> model.predict(features)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 2: F1 Project -->
+            <article class="project-card rounded-2xl p-8 mb-8 relative overflow-hidden group">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="order-2 md:order-1 relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-xl blur-xl"></div>
+                        <div class="relative bg-slate-900 border border-slate-700 rounded-xl p-6">
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="p-3 bg-slate-800 rounded-lg">
+                                    <div class="text-2xl font-bold text-orange-400">2.4s</div>
+                                    <div class="text-xs text-slate-500 mt-1">Pit Stop Avg</div>
+                                </div>
+                                <div class="p-3 bg-slate-800 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-400">95%</div>
+                                    <div class="text-xs text-slate-500 mt-1">Prediction Acc</div>
+                                </div>
+                                <div class="p-3 bg-slate-800 rounded-lg">
+                                    <div class="text-2xl font-bold text-yellow-400">1.2M</div>
+                                    <div class="text-xs text-slate-500 mt-1">Data Points</div>
+                                </div>
+                            </div>
+                            <div class="mt-4 h-32 flex items-end gap-2">
+                                <div class="flex-1 bg-orange-500/20 rounded-t-sm h-[40%]"></div>
+                                <div class="flex-1 bg-orange-500/30 rounded-t-sm h-[60%]"></div>
+                                <div class="flex-1 bg-orange-500/40 rounded-t-sm h-[45%]"></div>
+                                <div class="flex-1 bg-orange-500/50 rounded-t-sm h-[80%]"></div>
+                                <div class="flex-1 bg-orange-500/60 rounded-t-sm h-[65%]"></div>
+                                <div class="flex-1 bg-orange-500/70 rounded-t-sm h-[90%]"></div>
+                                <div class="flex-1 bg-orange-500/80 rounded-t-sm h-[100%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full text-xs text-orange-400 font-mono">Time Series Analysis</span>
+                            <span class="px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-xs text-red-400 font-mono">Data Visualization</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-orange-400 transition-colors">Formula 1 Race Strategy Analytics</h3>
+                        <p class="text-slate-400 mb-6 leading-relaxed">
+                            Advanced analytics platform for Formula 1 racing data, analyzing telemetry, pit stop strategies, and 
+                            weather conditions to predict race outcomes. Engineered data pipelines to process high-frequency 
+                            sensor data and created interactive dashboards for strategic decision-making.
+                        </p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Real-time telemetry data processing and analysis</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Predictive modeling for pit stop optimization</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Interactive visualization of race dynamics</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <a href="https://github.com/StratosDns/F1_PROJECT" target="_blank" class="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 font-medium transition-colors">
+                                View on GitHub
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 3: Movie Rating -->
+            <article class="project-card rounded-2xl p-8 relative overflow-hidden group">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/20 rounded-full text-xs text-pink-400 font-mono">Recommendation Systems</span>
+                            <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs text-blue-400 font-mono">Statistical Analysis</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-pink-400 transition-colors">Movie Rating Prediction Engine</h3>
+                        <p class="text-slate-400 mb-6 leading-relaxed">
+                            Statistical analysis and machine learning project predicting movie ratings based on user behavior, 
+                            genre preferences, and temporal patterns. Implemented collaborative filtering and content-based 
+                            filtering approaches to build a hybrid recommendation system with high accuracy.
+                        </p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Hybrid recommendation algorithm (collaborative + content-based)</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Statistical hypothesis testing on user preferences</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Dimensionality reduction for large-scale user-item matrices</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <a href="https://github.com/StratosDns/Movie_Rating_Analysis" target="_blank" class="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 font-medium transition-colors">
+                                View on GitHub
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-blue-500/20 rounded-xl blur-xl"></div>
+                        <div class="relative bg-slate-900 border border-slate-700 rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm text-slate-400">RMSE Score</span>
+                                <span class="text-2xl font-bold text-pink-400">0.82</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 mb-6">
+                                <div class="bg-gradient-to-r from-pink-500 to-blue-500 h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="bg-slate-800 p-3 rounded-lg">
+                                    <div class="text-slate-500 mb-1">MAE</div>
+                                    <div class="text-white font-semibold">0.64</div>
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-lg">
+                                    <div class="text-slate-500 mb-1">R² Score</div>
+                                    <div class="text-white font-semibold">0.78</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- GitHub Stats -->
+    <section id="github" class="py-24 bg-slate-900/50 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">GitHub <span class="text-cyan-400">Activity</span></h2>
+                <p class="text-slate-400">Consistent contributions to data engineering and machine learning projects</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-bold text-cyan-400 mb-2" id="repo-count">0</div>
+                    <div class="text-slate-400 text-sm">Public Repositories</div>
+                </div>
+                <div class="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-bold text-purple-400 mb-2" id="commit-count">0</div>
+                    <div class="text-slate-400 text-sm">Commits This Year</div>
+                </div>
+                <div class="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-bold text-emerald-400 mb-2">Python</div>
+                    <div class="text-slate-400 text-sm">Primary Language</div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700 rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-slate-200">Contribution Graph</h3>
+                    <a href="https://github.com/StratosDns" target="_blank" class="text-sm text-cyan-400 hover:text-cyan-300">View Profile →</a>
+                </div>
+                <div class="flex gap-1 overflow-x-auto pb-2" id="contribution-graph">
+                    <!-- Generated by JS -->
+                </div>
+                <div class="mt-4 flex items-center justify-end gap-2 text-xs text-slate-500">
+                    <span>Less</span>
+                    <div class="w-3 h-3 bg-slate-800 rounded-sm"></div>
+                    <div class="w-3 h-3 bg-cyan-900/30 rounded-sm"></div>
+                    <div class="w-3 h-3 bg-cyan-900/60 rounded-sm"></div>
+                    <div class="w-3 h-3 bg-cyan-600 rounded-sm"></div>
+                    <div class="w-3 h-3 bg-cyan-400 rounded-sm"></div>
+                    <span>More</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Let's Build Data <span class="text-cyan-400">Solutions</span> Together</h2>
+            <p class="text-xl text-slate-400 mb-12">
+                Looking for Data Engineering or Software Engineering opportunities. 
+                Let's discuss how my background in telecommunications and data systems can add value to your team.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <a href="mailto:efstratios.demertzoglou@example.com" class="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-medium transition-all flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    Get In Touch
+                </a>
+                <a href="#" class="px-8 py-4 border border-slate-600 hover:border-slate-400 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Download Resume
+                </a>
+            </div>
+
+            <div class="flex justify-center gap-6">
+                <a href="https://github.com/StratosDns" target="_blank" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:border-cyan-400 hover:text-cyan-400 transition-all">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:border-cyan-400 hover:text-cyan-400 transition-all">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:border-cyan-400 hover:text-cyan-400 transition-all">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
+        <p>&copy; 2024 Efstratios Demertzoglou. Built with precision and clean code.</p>
+    </footer>
+
+    <script>
+        // Three.js Background
+        const canvas = document.getElementById('hero-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        
+        // Create particles representing data points
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1000;
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 5;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.005,
+            color: 0x0ea5e9,
+            transparent: true,
+            opacity: 0.6
+        });
+        
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+        
+        camera.position.z = 2;
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (event) => {
+            mouseX = event.clientX / window.innerWidth - 0.5;
+            mouseY = event.clientY / window.innerHeight - 0.5;
+        });
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x += mouseY * 0.05;
+            particlesMesh.rotation.y += mouseX * 0.05;
+            
+            renderer.render(scene, camera);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Counter Animation
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const minTimer = 50;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            stepTime = Math.max(stepTime, minTimer);
+            let startTime = new Date().getTime();
+            let endTime = startTime + duration;
+            let timer;
+            
+            function run() {
+                let now = new Date().getTime();
+                let remaining = Math.max((endTime - now) / duration, 0);
+                let value = Math.round(end - (remaining * range));
+                obj.innerHTML = value;
+                if (value == end) {
+                    clearInterval(timer);
+                }
+            }
+            
+            timer = setInterval(run, stepTime);
+            run();
+        }
+
+        // Trigger counters
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateValue("repo-count", 0, 12, 2000);
+                    animateValue("commit-count", 0, 156, 2000);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(document.getElementById('github'));
+
+        // Generate Contribution Graph
+        const contributionGraph = document.getElementById('contribution-graph');
+        for (let week = 0; week < 52; week++) {
+            const weekColumn = document.createElement('div');
+            weekColumn.className = 'flex flex-col gap-1';
+            
+            for (let day = 0; day < 7; day++) {
+                const dayCell = document.createElement('div');
+                const intensity = Math.random();
+                let bgClass = 'bg-slate-800';
+                
+                if (intensity > 0.8) bgClass = 'bg-cyan-400';
+                else if (intensity > 0.6) bgClass = 'bg-cyan-600';
+                else if (intensity > 0.4) bgClass = 'bg-cyan-900/60';
+                else if (intensity > 0.2) bgClass = 'bg-cyan-900/30';
+                
+                dayCell.className = `w-3 h-3 rounded-sm ${bgClass}`;
+                weekColumn.appendChild(dayCell);
+            }
+            contributionGraph.appendChild(weekColumn);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
