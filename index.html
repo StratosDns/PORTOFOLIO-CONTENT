@@ -83,6 +83,22 @@
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
         }
+
+        /* Mobile & overflow safeguards */
+        pre, code {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        iframe {
+            max-width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .project-card {
+                padding: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body class="data-grid">
@@ -322,7 +338,7 @@
                             <span class="px-3 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full text-xs text-orange-400 font-mono">Hybrid SQL/NoSQL</span>
                             <span class="px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-xs text-red-400 font-mono">Data Integration</span>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-orange-400 transition-colors">F1 Hybrid Analytics Platform</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-orange-400 transition-colors">F1 Hybrid Analytics Study</h3>
                         <p class="text-slate-400 mb-6 leading-relaxed">
                             Novel integration of structured F1 race data (PostgreSQL) with unstructured radio messages (MongoDB) 
                             enabling cross-domain analytics. Synthetic message generation preserves causal relationships with actual 
@@ -509,7 +525,7 @@
             
 
             <!-- Project 3: Movie Rating Hadoop -->
-            <article class="project-card rounded-2xl p-8 relative overflow-hidden group">
+            <article class="project-card rounded-2xl p-8 mb-8 relative overflow-hidden group">
                 <div class="grid md:grid-cols-2 gap-8 items-center">
                     <div>
                         <div class="flex items-center gap-3 mb-4">
@@ -578,6 +594,128 @@
                                 <div class="text-slate-400 text-xs mb-1">Output Format</div>
                                 <div class="text-yellow-400">Genre | AgeGroup | AvgRating</div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 4: WebSocket Test Repo -->
+            <article class="project-card rounded-2xl p-8 mb-8 relative overflow-hidden group">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 bg-sky-500/10 border border-sky-500/20 rounded-full text-xs text-sky-400 font-mono">Real-time Communication</span>
+                            <span class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-xs text-indigo-400 font-mono">WebSockets</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-sky-400 transition-colors">WebSocket Platform</h3>
+                        <p class="text-slate-400 mb-6 leading-relaxed">
+                            Lightweight sandbox project for persistent client-server communication with WebSockets,
+                            using Supabase for backend services and real-time data synchronization.
+                            Built to validate connection lifecycle behavior, message broadcasting, and low-latency updates.
+                        </p>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Implements bidirectional communication over persistent WebSocket channels</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Useful for debugging connection stability, reconnects, and event flow in real time</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-sky-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Provides a clean baseline for experimenting with live updates in web applications</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <a href="https://github.com/StratosDns/WebSocket-Test-Repo" target="_blank" class="inline-flex items-center gap-2 text-sky-400 hover:text-sky-300 font-medium transition-colors">
+                                View on GitHub
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                            <a href="https://web-socket-test-repo.vercel.app/" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-sky-500/10 border border-sky-500/40 text-sky-300 hover:bg-sky-500/20 transition-colors text-sm font-medium">
+                                Visit Website
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-indigo-500/20 rounded-xl blur-xl"></div>
+                        <div class="relative bg-slate-900 border border-slate-700 rounded-xl p-6 font-mono text-xs">
+                            <div class="text-slate-500 mb-3">websocket_flow.log</div>
+                            <pre class="text-slate-300 overflow-x-auto"><code>Client connected → ws://server
+Handshake complete (101)
+Event: message_received
+Event: broadcast_sent
+Heartbeat ping/pong OK</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 5: Serbian Buddy App -->
+            <article class="project-card rounded-2xl p-8 mb-8 relative overflow-hidden group">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="order-2 md:order-1 relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-xl blur-xl"></div>
+                        <div class="relative bg-slate-900 border border-slate-700 rounded-xl p-6">
+                            <div class="text-slate-500 text-xs mb-3">Learning Highlights</div>
+                            <div class="grid grid-cols-2 gap-3 text-center text-sm">
+                                <div class="bg-slate-800 p-3 rounded-lg">
+                                    <div class="text-emerald-400 font-bold">Vocabulary</div>
+                                    <div class="text-slate-500 text-xs">Daily terms</div>
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-lg">
+                                    <div class="text-teal-400 font-bold">Practice</div>
+                                    <div class="text-slate-500 text-xs">Interactive flow</div>
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-lg">
+                                    <div class="text-cyan-400 font-bold">UI Focus</div>
+                                    <div class="text-slate-500 text-xs">Learner friendly</div>
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-lg">
+                                    <div class="text-lime-400 font-bold">Progress</div>
+                                    <div class="text-slate-500 text-xs">Habit tracking</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-1 md:order-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-mono">Education App</span>
+                            <span class="px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs text-teal-400 font-mono">Language Learning</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-emerald-400 transition-colors">Serbian Buddy App</h3>
+                        <p class="text-slate-400 mb-6 leading-relaxed">
+                            Language-learning application designed to support Serbian practice through a simple,
+                            approachable interface. Focuses on structured learning flow and repeatable exercises
+                            that help users build vocabulary and confidence over time.
+                        </p>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Promotes consistent Serbian language practice with compact lesson flows</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Built with UX simplicity in mind to make daily learning easy to maintain</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm text-slate-300">Acts as a foundation for adding quizzes, phrase banks, and pronunciation tools</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <a href="https://github.com/StratosDns/serbian-buddy-app" target="_blank" class="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
+                                View on GitHub
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                            <a href="https://serbian-buddy-app.vercel.app/" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-emerald-500/10 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/20 transition-colors text-sm font-medium">
+                                Visit Website
+                            </a>
                         </div>
                     </div>
                 </div>
